@@ -10,7 +10,7 @@ export const useWinnersStore = defineStore('winners', () => {
     winners.value = data
   }
   const addWinners = async (data: Attendant | Attendant[]) => {
-    winners.value = [...winners.value, data]
+    winners.value = Array.isArray(data) ? [...winners.value, ...data] : [...winners.value, data]
   }
   return { winners, getWinners, addWinners }
 })

@@ -2,7 +2,7 @@ import { useAttendantsStore } from '@/stores/attendants'
 import { useWinnersStore } from '@/stores/winners'
 import type { Attendant } from '@/types/attendant'
 import { ref, watch, type Ref } from 'vue'
-import { useFetchWinners } from './useFetchWinners'
+import { useSaveWinners } from './useSaveWinners'
 
 export const useLotteryDrawing = () => {
   const pending = ref(false)
@@ -13,14 +13,8 @@ export const useLotteryDrawing = () => {
   const secondWinners = ref<Attendant[] | null>([])
   const firstWinners = ref<Attendant[] | null>([])
   const deluxeWinners = ref<Attendant[] | null>([])
-  const turnWinners = ref<Attendant[] | null>([])
+  const currentWinners = ref<Attendant[] | null>([])
 
-  watch(consoleWinners, () => {
-    if (consoleWinners.value && consoleWinners.value.length >= 30) {
-      confirm('Congratulations to all the consolation prize winners!')
-      return
-    }
-  })
   const shuffleArray = (array: Attendant[]) => {
     for (let i = array.length - 1; i > 0; i--) {
       const randomIndex = Math.floor(Math.random() * (i + 1))
@@ -62,22 +56,22 @@ export const useLotteryDrawing = () => {
       }
 
       const currentWinnersCount = prizeWinnersRef.value?.length || 0
-      console.log('Current winners count:', currentWinnersCount)
+      // console.log('Current winners count:', currentWinnersCount)
 
       const remainingSlots = Math.max(0, maxWinners - currentWinnersCount)
-      console.log('Remaining slots:', remainingSlots)
+      // console.log('Remaining slots:', remainingSlots)
 
       if (remainingSlots > 0) {
         const shuffled = shuffleArray(availableAttendants)
         const newWinners = shuffled.slice(0, Math.min(drawCount, remainingSlots))
 
-        console.log('New winners to add:', newWinners)
+        currentWinners.value = newWinners
 
         winnersStore.addWinners(newWinners)
-        await useFetchWinners().saveWinners(newWinners)
-
+        await useSaveWinners().saveWinners(newWinners)
+        await useSaveWinners().savePrizeWinners(tier || 'winners', newWinners)
         prizeWinnersRef.value = [...(prizeWinnersRef.value || []), ...newWinners]
-        console.log('Updated prizeWinnersRef.value:', prizeWinnersRef.value)
+        // console.log('Updated prizeWinnersRef.value:', prizeWinnersRef.value)
       } else {
         alert('All winners have been drawn.')
       }
@@ -90,23 +84,32 @@ export const useLotteryDrawing = () => {
   }
 
   const consolationPrizeDrawing = () =>
-    performDrawing(consoleWinners, 30, 5, (attendant) => attendant.type === 'Factory')
+    performDrawing(
+      consoleWinners,
+      30,
+      5,
+      (attendant) => attendant.type === 'Factory',
+      'consolation',
+    )
   const thirdPrizeDrawing = () =>
-    performDrawing(thirdWinners, 15, 5, (attendant) => attendant.type === 'Office')
+    performDrawing(thirdWinners, 15, 5, (attendant) => attendant.type === 'Office', 'third')
   const secondPrizeDrawing = () =>
-    performDrawing(secondWinners, 10, 3, (attendant) => attendant.type === 'Office')
+    performDrawing(secondWinners, 10, 3, (attendant) => attendant.type === 'Office', 'second')
   const firstPrizeDrawing = () =>
-    performDrawing(firstWinners, 5, 2, (attendant) => attendant.type === 'Office')
+    performDrawing(firstWinners, 2, 1, (attendant) => attendant.type === 'Office', 'first')
   const deluxePrizeDrawing = () =>
-    performDrawing(deluxeWinners, 2, 1, (attendant) => attendant.type === 'Office')
+    performDrawing(deluxeWinners, 2, 1, (attendant) => attendant.type === 'Office', 'deluxe')
 
   return {
     pending,
-    consoleWinners,
-    thirdWinners,
-    secondWinners,
-    firstWinners,
-    deluxeWinners,
+    currentWinners,
+    winners: {
+      consoleWinners,
+      thirdWinners,
+      secondWinners,
+      firstWinners,
+      deluxeWinners,
+    },
     consolationPrizeDrawing,
     thirdPrizeDrawing,
     secondPrizeDrawing,

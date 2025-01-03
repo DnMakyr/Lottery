@@ -5,7 +5,7 @@ export const columns: ColumnDef<Attendant>[] = [
   {
     accessorKey: 'id',
     header: 'No.',
-    cell: ({ row }) => row.getValue('id'),
+    cell: ({ row }) => row.index + 1,
   },
   {
     accessorKey: 'code',

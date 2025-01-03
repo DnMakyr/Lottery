@@ -16,7 +16,7 @@ export const useFetchAttendants = () => {
         return
       }
       attendants.value = data as Attendant[]
-      useAttendantsStore().getAttendants(data as Attendant[])
+      await useAttendantsStore().getAttendants(data as Attendant[])
     } catch (error) {
       console.error(error)
     } finally {
