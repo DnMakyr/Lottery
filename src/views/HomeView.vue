@@ -40,7 +40,7 @@ onMounted(async () => {
         <Button @click="router.push('/consolation')">Bốc Giải Khuyến Khích</Button>
         <Button @click="router.push('/third')">Bốc Giải Ba</Button>
         <Button @click="router.push('/second')">Bốc Giải Nhì</Button>
-        <Button @click="router.push('/first')">DBốc Giải Nhất</Button>
+        <Button @click="router.push('/first')">Bốc Giải Nhất</Button>
         <Button @click="router.push('/deluxe')">Bốc Giải Đặc Biệt</Button>
       </div>
       <Button class="my-5" @click="toggleTable">{{ buttonLabel }}</Button>
