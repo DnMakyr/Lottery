@@ -15,7 +15,7 @@ const toggleTable = () => {
   showTable.value = !showTable.value
 }
 
-const buttonLabel = computed(() => (showTable.value ? 'Hide' : 'Show') + " Attendants' List")
+const buttonLabel = computed(() => (showTable.value ? 'Ẩn' : 'Hiện') + " Danh Sách Người Tham Gia")
 
 const attendants = ref<Attendant[]>([])
 
@@ -34,14 +34,14 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col justify-center items-center mt-10">
-    <h1 class="font-mono text-4xl font-bold uppercase">Lottery Drawing App</h1>
+    <h1 class="font-mono text-4xl font-bold uppercase">Mừng Xuân Bốc Thăm Trúng Thưởng</h1>
     <div class="flex flex-col justify-center items-center mt-10">
       <div class="space-x-4 flex justify-center items-center">
-        <Button @click="router.push('/consolation')">Draw Consolation Prize</Button>
-        <Button @click="router.push('/third')">Draw Third Prize</Button>
-        <Button @click="router.push('/second')">Draw Second Prize</Button>
-        <Button @click="router.push('/first')">Draw First Prize</Button>
-        <Button @click="router.push('/deluxe')">Draw Deluxe Prize</Button>
+        <Button @click="router.push('/consolation')">Bốc Giải Khuyến Khích</Button>
+        <Button @click="router.push('/third')">Bốc Giải Ba</Button>
+        <Button @click="router.push('/second')">Bốc Giải Nhì</Button>
+        <Button @click="router.push('/first')">DBốc Giải Nhất</Button>
+        <Button @click="router.push('/deluxe')">Bốc Giải Đặc Biệt</Button>
       </div>
       <Button class="my-5" @click="toggleTable">{{ buttonLabel }}</Button>
       <DataTable v-show="showTable" :columns="columns" :data="attendants" />

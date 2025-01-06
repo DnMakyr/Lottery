@@ -29,11 +29,10 @@ onMounted(async () => {
 <template>
   <LoadingSpinner v-if="pendingPrize" />
   <div v-else class="flex flex-col justify-center items-center mt-10 space-y-4">
-    <p class="font-mono font-semibold text-2xl">First Prize Drawing</p>
-    <Button @click="drawing" :disabled="!drawable"> Draw
-      First Prize </Button>
+    <p class="font-mono font-semibold text-2xl">Bốc Giải Nhất</p>
+    <Button @click="drawing" :disabled="!drawable">Bốc Giải</Button>
     <div v-if="currentWinners && currentWinners.length > 0">
-      <p class="font-mono font-semibold text-2xl text-center">Winners</p>
+      <p class="font-mono font-semibold text-2xl text-center">Người Thắng Giải</p>
       <div class="flex flex-col items-center space-y-4">
         <div v-for="winner in currentWinners" :key="winner.id"
           class="flex justify-center items-center space-x-4 text-xl"
