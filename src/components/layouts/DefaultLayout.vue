@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import AppHeader from './AppHeader.vue'
+import AppHeader from './AppHeader.vue';
+import backgroundImage from '../../assets/background/job516-namcha-09.jpg';
 </script>
 
 <template>
-  <div class="container mx-auto max-w-4xl">
+  <div>
     <AppHeader />
-    <main>
+    <main class="min-h-screen w-full bg-cover" :style="{ backgroundImage: `url('${backgroundImage}')` }">
       <slot />
     </main>
   </div>

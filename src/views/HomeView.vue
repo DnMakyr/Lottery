@@ -33,8 +33,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex flex-col justify-center items-center mt-10">
-    <h1 class="font-mono text-4xl font-bold uppercase">Mừng Xuân Bốc Thăm Trúng Thưởng</h1>
+  <div class="flex flex-col justify-center items-center">
+    <h1 class="text-6xl font-bold uppercase mt-40 text-custom">
+      Mừng Xuân Bốc Thăm Trúng Thưởng
+    </h1>
     <div class="flex flex-col justify-center items-center mt-10">
       <div class="space-x-4 flex justify-center items-center">
         <Button @click="router.push('/consolation')">Bốc Giải Khuyến Khích</Button>
@@ -48,3 +50,20 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.outlined-text {
+  text-shadow:
+    -1px -1px 0 #000,
+    /* top-left */
+    1px -1px 0 #000,
+    /* top-right */
+    -1px 1px 0 #000,
+    /* bottom-left */
+    1px 1px 0 #000;
+}
+
+.text-custom {
+  color: #2a2828;
+}
+</style>
