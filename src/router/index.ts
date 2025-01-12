@@ -17,31 +17,41 @@ const router = createRouter({
       path: '/consolation',
       name: 'Consolation',
       component: () => import('../views/ConsolationView.vue'),
+      meta: {
+        title: 'Giải Khuyến Khích',
+      },
     },
     {
       path: '/third',
       name: 'Third Prize Drawing',
       component: () => import('../views/ThirdView.vue'),
+      meta: {
+        title: 'Giải Ba',
+      },
     },
     {
       path: '/second',
       name: 'Second Prize Drawing',
       component: () => import('../views/SecondView.vue'),
+      meta: {
+        title: 'Giải Nhì',
+      },
     },
     {
       path: '/first',
       name: 'First Prize Drawing',
       component: () => import('../views/FirstView.vue'),
+      meta: {
+        title: 'Giải Nhất',
+      },
     },
     {
       path: '/deluxe',
       name: 'Deluxe Prize Drawing',
       component: () => import('../views/DeluxeView.vue'),
-    },
-    {
-      path: '/winners',
-      name: 'Winners',
-      component: () => import('../views/WinnerView.vue'),
+      meta: {
+        title: 'Giải Đặc Biệt',
+      },
     },
   ],
 })
