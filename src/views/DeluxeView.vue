@@ -27,7 +27,7 @@ onMounted(async () => {
 
 <template>
   <LoadingSpinner v-if="pendingPrize" />
-  <div v-else class="flex flex-col justify-center items-center space-y-4">
+  <div v-else class="pt-36 flex flex-col justify-center items-center align-middle space-y-4">
     <p class="font-mono font-semibold text-2xl">Bốc Giải Đặc Biệt</p>
     <Button @click="drawing" :disabled="!drawable">Bốc Giải</Button>
     <div v-if="currentWinners && currentWinners.length > 0">

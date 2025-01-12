@@ -6,24 +6,23 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
-
 <style scoped>
 .spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.8); /* Optional */
 }
 
 .spinner {
   animation: rotate 1s linear infinite;
-  width: 50px; /* Adjust size as needed */
+  width: 50px;
+  /* Adjust size as needed */
   height: 50px;
 }
 
 .path {
-  stroke: #3498db; /* Adjust color as needed */
+  stroke: #3498db;
+  /* Adjust color as needed */
   stroke-linecap: round;
   animation: dash 1.5s ease-in-out infinite;
 }
@@ -39,10 +38,12 @@
     stroke-dasharray: 1, 150;
     stroke-dashoffset: 0;
   }
+
   50% {
     stroke-dasharray: 90, 150;
     stroke-dashoffset: -35;
   }
+
   100% {
     stroke-dasharray: 90, 150;
     stroke-dashoffset: -125;

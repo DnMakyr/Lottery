@@ -4,12 +4,14 @@ import { Button } from '@/components/ui/button'
 import { ref, onMounted, unref, computed } from 'vue'
 import { useFetchWinners } from '@/composables/useFetchWinners'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import { useWinnersStore } from '@/stores/winners'
 
 const { pendingPrize, prizeWinners, fetchWinners, fetchPrizeWinners } = useFetchWinners()
 
 const { currentWinners, consolationPrizeDrawing } = useLotteryDrawing()
-const drawCount = ref(6)
+const drawCount = ref(3)
 const drawing = async () => {
+  console.log(useWinnersStore().winners.values())
   consolationPrizeDrawing()
   drawCount.value--
   fetchWinners()
@@ -28,7 +30,7 @@ onMounted(async () => {
 
 <template>
   <LoadingSpinner v-if="pendingPrize" />
-  <div v-else class="flex flex-col justify-center items-center space-y-4">
+  <div v-else class="pt-36 flex flex-col justify-center items-center align-middle space-y-4">
     <p class="font-mono font-semibold text-2xl">Bốc Giải Khuyến Khích</p>
     <Button @click="drawing" :disabled="!drawable">Bốc Giải</Button>
     <div v-if="currentWinners && currentWinners.length > 0">

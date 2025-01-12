@@ -7,6 +7,7 @@ import DataTable from '@/components/DataTable.vue'
 import { Button } from '@/components/ui/button'
 import type { Attendant } from '@/types/attendant'
 import { useFetchAttendants } from '@/composables/useFetchAttendants'
+import OpaqueBox from '@/components/OpaqueBox.vue'
 
 const router = useRouter()
 const showTable = ref(false)
@@ -34,16 +35,18 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col justify-center items-center">
-    <h1 class="text-6xl font-bold uppercase mt-40 text-custom">
-      Mừng Xuân Bốc Thăm Trúng Thưởng
-    </h1>
+    <OpaqueBox :class="'mt-56 bg-white p-4 rounded-lg'">
+      <h1 class="text-6xl font-bold uppercase text-red-spring">
+        Mừng Xuân Bốc Thăm Trúng Thưởng
+      </h1>
+    </OpaqueBox>
     <div class="flex flex-col justify-center items-center mt-10">
       <div class="space-x-4 flex justify-center items-center">
-        <Button @click="router.push('/consolation')">Bốc Giải Khuyến Khích</Button>
-        <Button @click="router.push('/third')">Bốc Giải Ba</Button>
-        <Button @click="router.push('/second')">Bốc Giải Nhì</Button>
-        <Button @click="router.push('/first')">Bốc Giải Nhất</Button>
-        <Button @click="router.push('/deluxe')">Bốc Giải Đặc Biệt</Button>
+        <Button @click="router.push('/consolation')" class="red-spring">Bốc Giải Khuyến Khích</Button>
+        <Button @click="router.push('/third')" class="red-spring">Bốc Giải Ba</Button>
+        <Button @click="router.push('/second')" class="red-spring">Bốc Giải Nhì</Button>
+        <Button @click="router.push('/first')" class="red-spring">Bốc Giải Nhất</Button>
+        <Button @click="router.push('/deluxe')" class="red-spring">Bốc Giải Đặc Biệt</Button>
       </div>
       <Button class="my-5" @click="toggleTable">{{ buttonLabel }}</Button>
       <DataTable v-show="showTable" :columns="columns" :data="attendants" />
@@ -52,18 +55,11 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.outlined-text {
-  text-shadow:
-    -1px -1px 0 #000,
-    /* top-left */
-    1px -1px 0 #000,
-    /* top-right */
-    -1px 1px 0 #000,
-    /* bottom-left */
-    1px 1px 0 #000;
+.red-spring {
+  background-color: #A31D1D;
 }
 
-.text-custom {
-  color: #2a2828;
+.text-red-spring {
+  color: #A31D1D;
 }
 </style>

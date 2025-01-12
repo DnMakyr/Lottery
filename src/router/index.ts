@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
-  linkActiveClass: 'text-blue-500',
+  linkActiveClass: 'text-red-800',
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {

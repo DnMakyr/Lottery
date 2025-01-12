@@ -8,7 +8,7 @@ import LoadingSpinner from '@/components/LoadingSpinner.vue'
 const { pendingPrize, prizeWinners, fetchWinners, fetchPrizeWinners } = useFetchWinners()
 
 const { currentWinners, secondPrizeDrawing } = useLotteryDrawing()
-const drawCount = ref(5)
+const drawCount = ref(10)
 const drawing = async () => {
   secondPrizeDrawing()
   drawCount.value--
@@ -16,7 +16,7 @@ const drawing = async () => {
 }
 
 const drawable = computed(() => {
-  if (unref(prizeWinners).length >= 5) return false
+  if (unref(prizeWinners).length >= 10) return false
   if (unref(drawCount) <= 0) return false
   return true
 })
@@ -27,7 +27,7 @@ onMounted(async () => {
 
 <template>
   <LoadingSpinner v-if="pendingPrize" />
-  <div v-else class="flex flex-col justify-center items-center space-y-4">
+  <div v-else class="pt-36 flex flex-col justify-center items-center align-middle space-y-4">
     <p class="font-mono font-semibold text-2xl">Bốc Giải Nhì</p>
     <Button @click="drawing" :disabled="!drawable"> Bốc Giải </Button>
     <div v-if="currentWinners && currentWinners.length > 0">

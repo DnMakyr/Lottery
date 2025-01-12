@@ -1,12 +1,14 @@
 import { useAttendantsStore } from '@/stores/attendants'
 import { useWinnersStore } from '@/stores/winners'
 import type { Attendant } from '@/types/attendant'
-import { ref, watch, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { useSaveWinners } from './useSaveWinners'
+import { storeToRefs } from 'pinia'
 
 export const useLotteryDrawing = () => {
   const pending = ref(false)
   const winnersStore = useWinnersStore()
+  const { winners } = storeToRefs(winnersStore)
   const attendantsStore = useAttendantsStore()
   const consoleWinners = ref<Attendant[] | null>([])
   const thirdWinners = ref<Attendant[] | null>([])
@@ -29,72 +31,59 @@ export const useLotteryDrawing = () => {
     prizeWinnersRef: Ref<Attendant[] | null>,
     maxWinners: number,
     drawCount: number,
-    filterFn?: (attendant: Attendant) => boolean,
+    filterFn?: (attendant: Attendant) => boolean | undefined,
     tier?: string,
   ) => {
-    pending.value = true
     try {
-      const attendants = attendantsStore.attendants
+      pending.value = true
 
-      if (!attendants.length) {
-        alert('No attendants available for the draw.')
-        return
-      }
+      const attendants = attendantsStore.attendants
+      if (!attendants.length) throw new Error('No attendants available for the draw.')
 
       let availableAttendants = attendants.filter(
-        (attendant) =>
-          !winnersStore.winners.some((winner: Attendant) => winner.id === attendant.id),
+        (attendant) => !winners.value.some((winner: Attendant) => winner.id === attendant.id),
       )
 
-      if (filterFn) {
-        availableAttendants = availableAttendants.filter(filterFn)
-      }
+      if (filterFn) availableAttendants = availableAttendants.filter(filterFn)
 
-      if (!availableAttendants.length) {
-        alert('No eligible attendants available for the draw.')
-        return
-      }
+      if (!availableAttendants.length)
+        throw new Error('No eligible attendants available for the draw.')
 
       const currentWinnersCount = prizeWinnersRef.value?.length || 0
-      // console.log('Current winners count:', currentWinnersCount)
-
       const remainingSlots = Math.max(0, maxWinners - currentWinnersCount)
-      // console.log('Remaining slots:', remainingSlots)
 
-      if (remainingSlots > 0) {
-        const shuffled = shuffleArray(availableAttendants)
-        const newWinners = shuffled.slice(0, Math.min(drawCount, remainingSlots))
+      if (remainingSlots <= 0) throw new Error('All winners have been drawn.')
 
-        currentWinners.value = newWinners
+      const shuffled = shuffleArray(availableAttendants)
+      const newWinners = shuffled.slice(0, Math.min(drawCount, remainingSlots))
 
-        winnersStore.addWinners(newWinners)
-        await useSaveWinners().saveWinners(newWinners)
-        await useSaveWinners().savePrizeWinners(tier || 'winners', newWinners)
-        prizeWinnersRef.value = [...(prizeWinnersRef.value || []), ...newWinners]
-        // console.log('Updated prizeWinnersRef.value:', prizeWinnersRef.value)
-      } else {
-        alert('All winners have been drawn.')
-      }
+      currentWinners.value = newWinners
+
+      // winnersStore.addWinners(newWinners)
+      await Promise.all([
+        useSaveWinners().saveWinners(newWinners),
+        useSaveWinners().savePrizeWinners(tier || 'winners', newWinners),
+      ])
+
+      prizeWinnersRef.value = [...(prizeWinnersRef.value || []), ...newWinners]
     } catch (error) {
-      console.error('An error occurred during the drawing:', error)
-      alert('An error occurred. Please try again.')
+      console.error('Error during the draw:', error)
+      if (error instanceof Error) {
+        alert(error.message || 'An error occurred. Please try again.')
+      } else {
+        alert('An error occurred. Please try again.')
+      }
     } finally {
       pending.value = false
     }
   }
 
   const consolationPrizeDrawing = () =>
-    performDrawing(
-      consoleWinners,
-      30,
-      5,
-      (attendant) => attendant.type === 'Factory',
-      'consolation',
-    )
+    performDrawing(consoleWinners, 30, 10, () => true, 'consolation')
   const thirdPrizeDrawing = () =>
     performDrawing(thirdWinners, 15, 5, (attendant) => attendant.type === 'Office', 'third')
   const secondPrizeDrawing = () =>
-    performDrawing(secondWinners, 10, 3, (attendant) => attendant.type === 'Office', 'second')
+    performDrawing(secondWinners, 10, 1, (attendant) => attendant.type === 'Office', 'second')
   const firstPrizeDrawing = () =>
     performDrawing(firstWinners, 2, 1, (attendant) => attendant.type === 'Office', 'first')
   const deluxePrizeDrawing = () =>

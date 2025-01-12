@@ -13,34 +13,43 @@ export const useFetchWinners = () => {
     pending.value = true
     try {
       const { data, error } = await supabase.from('winners').select()
-      if (!data) {
-        console.error(error)
-        return
+      if (error) throw error
+
+      if (data) {
+        winners.value = data as Attendant[]
+
+        const winnersStore = useWinnersStore()
+        await winnersStore.getWinners(data as Attendant[])
       }
-      winners.value = data as Attendant[]
-      useWinnersStore().getWinners(data as Attendant[])
     } catch (error) {
-      console.error(error)
+      console.error('Error fetching winners:', error)
     } finally {
       pending.value = false
     }
   }
+
   const fetchPrizeWinners = async (tier: string) => {
     pendingPrize.value = true
     try {
       const { data, error } = await supabase.from(`${tier}`).select()
-      if (!data) {
-        console.error(error)
-        return
+      if (error) throw error
+
+      if (data) {
+        prizeWinners.value = data as Attendant[]
       }
-      prizeWinners.value = data as Attendant[]
-      await useWinnersStore().getWinners(data as Attendant[])
     } catch (error) {
-      console.error(error)
+      console.error('Error fetching prize winners:', error)
     } finally {
       pendingPrize.value = false
     }
   }
 
-  return { all: winners, prizeWinners, pending, pendingPrize, fetchWinners, fetchPrizeWinners }
+  return {
+    all: winners,
+    prizeWinners,
+    pending,
+    pendingPrize,
+    fetchWinners,
+    fetchPrizeWinners,
+  }
 }
