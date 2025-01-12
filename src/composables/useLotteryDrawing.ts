@@ -1,7 +1,7 @@
 import { useAttendantsStore } from '@/stores/attendants'
 import { useWinnersStore } from '@/stores/winners'
 import type { Attendant } from '@/types/attendant'
-import { ref, type Ref } from 'vue'
+import { ref, watch, type Ref } from 'vue'
 import { useSaveWinners } from './useSaveWinners'
 import { storeToRefs } from 'pinia'
 
@@ -81,7 +81,7 @@ export const useLotteryDrawing = () => {
   const consolationPrizeDrawing = () =>
     performDrawing(consoleWinners, 30, 10, () => true, 'consolation')
   const thirdPrizeDrawing = () =>
-    performDrawing(thirdWinners, 15, 5, (attendant) => attendant.type === 'employee', 'third')
+    performDrawing(thirdWinners, 15, 1, (attendant) => attendant.type === 'employee', 'third')
   const secondPrizeDrawing = () =>
     performDrawing(secondWinners, 10, 1, (attendant) => attendant.type === 'employee', 'second')
   const firstPrizeDrawing = () =>
