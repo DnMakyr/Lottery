@@ -81,13 +81,13 @@ export const useLotteryDrawing = () => {
   const consolationPrizeDrawing = () =>
     performDrawing(consoleWinners, 30, 10, () => true, 'consolation')
   const thirdPrizeDrawing = () =>
-    performDrawing(thirdWinners, 15, 5, (attendant) => attendant.type === 'Office', 'third')
+    performDrawing(thirdWinners, 15, 5, (attendant) => attendant.type === 'office', 'third')
   const secondPrizeDrawing = () =>
-    performDrawing(secondWinners, 10, 1, (attendant) => attendant.type === 'Office', 'second')
+    performDrawing(secondWinners, 10, 1, (attendant) => attendant.type === 'office', 'second')
   const firstPrizeDrawing = () =>
-    performDrawing(firstWinners, 2, 1, (attendant) => attendant.type === 'Office', 'first')
+    performDrawing(firstWinners, 2, 1, (attendant) => attendant.type === 'office', 'first')
   const deluxePrizeDrawing = () =>
-    performDrawing(deluxeWinners, 2, 1, (attendant) => attendant.type === 'Office', 'deluxe')
+    performDrawing(deluxeWinners, 2, 1, (attendant) => attendant.type === 'office', 'deluxe')
 
   return {
     pending,

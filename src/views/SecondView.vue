@@ -35,7 +35,7 @@ onMounted(async () => {
       <div class="flex flex-col items-center space-y-4">
         <div v-for="winner in currentWinners" :key="winner.id"
           class="flex justify-center items-center space-x-4 text-xl"
-          :class="winner.type === 'Factory' ? 'text-blue-400' : 'text-slate-500'">
+          :class="winner.type === 'factory' ? 'text-blue-400' : 'text-slate-500'">
           <p class="font-sans font-semibold">{{ winner.code }}</p>
           <span>-</span>
           <p class="font-sans font-semibold">{{ winner.name }}</p>
