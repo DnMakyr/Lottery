@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div :class="props.class" style="background-color: rgba(255, 255, 255, 0.5);">
+  <div :class="props.class" style="background-color: rgba(255, 255, 255, 0.7);">
     <slot />
   </div>
 </template>

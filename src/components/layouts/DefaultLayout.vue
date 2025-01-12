@@ -11,3 +11,13 @@ import backgroundImage from '../../assets/background/job516-namcha-09.jpg';
     </main>
   </div>
 </template>
+
+<style>
+.red-spring {
+  background-color: #A31D1D;
+}
+
+.text-red-spring {
+  color: #A31D1D;
+}
+</style>
