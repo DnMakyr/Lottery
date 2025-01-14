@@ -33,16 +33,18 @@ const drawing = async () => {
           <p class="font-mono font-semibold uppercase text-4xl text-center text-red-800">Bàn Làm Việc May Mắn</p>
         </OpaqueBox>
         <TextAnimation v-show="isDrawing" />
-        <div v-if="!isDrawing && deskNumber !== 0" class="my-10">
-          <OpaqueBox class="drawing-result p-6 rounded-lg space-y-4 2xl:h-[62vh] md:h-[48.5vh] ">
-            <p class="font-mono font-bold text-2xl text-center text-red-800">Bàn Thắng Giải</p>
-            <div class="flex flex-col items-center justify-center space-y-2 h-full">
-              <span class="text-9xl font-bold">
-                {{ deskNumber }}
-              </span>
-            </div>
-          </OpaqueBox>
-        </div>
+        <transition>
+          <div v-if="!isDrawing && deskNumber !== 0" class="my-10">
+            <OpaqueBox class="drawing-result p-6 rounded-lg space-y-4 2xl:h-[62vh] md:h-[48.5vh] ">
+              <p class="font-mono font-bold text-2xl text-center text-red-800">Bàn Thắng Giải</p>
+              <div class="flex flex-col items-center justify-center space-y-2 h-full">
+                <span class="text-9xl font-bold">
+                  {{ deskNumber }}
+                </span>
+              </div>
+            </OpaqueBox>
+          </div>
+        </transition>
       </div>
     </div>
     <Button class="w-32 h-32 rounded-full red-spring text-3xl font-semibold" @click="drawing">
@@ -50,3 +52,14 @@ const drawing = async () => {
     </Button>
   </div>
 </template>
+
+<style scoped>
+.v-enter-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
