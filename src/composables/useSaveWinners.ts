@@ -1,6 +1,5 @@
 import type { Attendant } from '@/types/attendant'
 import { supabase } from '@/lib/supabaseClient'
-import { useWinnersStore } from '@/stores/winners'
 
 export const useSaveWinners = () => {
   const saveWinners = async (data: Attendant[] | Attendant) => {
@@ -10,7 +9,6 @@ export const useSaveWinners = () => {
         console.error(error)
         return
       }
-      useWinnersStore().getWinners(data as Attendant[])
     } catch (error) {
       console.error(error)
     }
@@ -22,7 +20,6 @@ export const useSaveWinners = () => {
         console.error(error)
         return
       }
-      useWinnersStore().getWinners(data as Attendant[])
     } catch (error) {
       console.error(error)
     }
