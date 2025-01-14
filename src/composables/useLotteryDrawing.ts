@@ -1,7 +1,7 @@
 import { useAttendantsStore } from '@/stores/attendants'
 import { useWinnersStore } from '@/stores/winners'
 import type { Attendant } from '@/types/attendant'
-import { ref, watch, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import { useSaveWinners } from './useSaveWinners'
 import { storeToRefs } from 'pinia'
 
@@ -52,10 +52,15 @@ export const useLotteryDrawing = () => {
       const currentWinnersCount = prizeWinnersRef.value?.length || 0
       const remainingSlots = Math.max(0, maxWinners - currentWinnersCount)
 
-      if (remainingSlots <= 0) throw new Error('All winners have been drawn.')
+      if (tier === 'consolation' && remainingSlots <= 0)
+        throw new Error('All winners have been drawn.')
 
       const shuffled = shuffleArray(availableAttendants)
-      const newWinners = shuffled.slice(0, Math.min(drawCount, remainingSlots))
+
+      const newWinners =
+        tier === 'consolation'
+          ? shuffled.slice(0, Math.min(drawCount, remainingSlots))
+          : shuffled.slice(0, drawCount)
 
       currentWinners.value = newWinners
 
@@ -89,6 +94,9 @@ export const useLotteryDrawing = () => {
   const deluxePrizeDrawing = () =>
     performDrawing(deluxeWinners, 2, 1, (attendant) => attendant.type === 'employee', 'deluxe')
 
+  const randomIntDrawing = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  }
   return {
     pending,
     currentWinners,
@@ -104,5 +112,6 @@ export const useLotteryDrawing = () => {
     secondPrizeDrawing,
     firstPrizeDrawing,
     deluxePrizeDrawing,
+    randomIntDrawing,
   }
 }
