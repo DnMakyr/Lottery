@@ -53,6 +53,14 @@ const router = createRouter({
         title: 'Giải Đặc Biệt',
       },
     },
+    {
+      path: '/desk',
+      name: 'Desk Prize Drawing',
+      component: () => import('../views/LuckyDeskView.vue'),
+      meta: {
+        title: 'Bàn Làm Việc May Mắn',
+      },
+    },
   ],
 })
 
