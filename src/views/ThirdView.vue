@@ -12,7 +12,7 @@ const { pendingPrize, fetchWinners } = useFetchWinners()
 
 const { currentWinners, winners: { thirdWinners }, thirdPrizeDrawing } = useLotteryDrawing()
 
-const drawCount = ref(2)
+const drawCount = ref(0)
 
 const drawable = computed(() => {
   // if (unref(prizeWinners).length >= 2) return false
@@ -39,7 +39,7 @@ const drawing = async (work: string, type: string | boolean) => {
     isDrawing.value = true;
     audio.play();
     thirdPrizeDrawing(type);
-    drawCount.value--;
+    drawCount.value++;
     fetchWinners();
 
     timeoutId = setTimeout(async () => {
@@ -102,13 +102,9 @@ watch(thirdWinners, scrollToBottom);
     </div>
     <div class="flex">
       <div v-show="!isDrawing" class="flex space-x-4 ">
-        <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="() => drawing('start', true)"
-          :disabled="!drawable">
-          Bốc Chung
-        </Button>
         <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold"
-          @click="() => drawing('start', 'Office')" :disabled="!drawable">
-          Nhân viên
+          @click="() => drawing('start', drawCount < 5 ? true : 'Office')">
+          Bốc Giải
         </Button>
       </div>
       <div v-show="isDrawing" class="flex items-center justify-center space-x-4">
