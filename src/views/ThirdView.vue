@@ -32,20 +32,31 @@ const scrollToBottom = async () => {
 };
 
 const audio = new Audio(music);
-const drawing = async () => {
+const timeoutId = ref<NodeJS.Timeout>();
+const drawing = async (work: string, type: string | boolean) => {
 
-  isDrawing.value = true;
-  audio.play();
-  thirdPrizeDrawing();
-  drawCount.value--;
-  fetchWinners();
+  if (work === 'start') {
+    isDrawing.value = true;
+    audio.play();
+    thirdPrizeDrawing(type);
+    drawCount.value--;
+    fetchWinners();
 
-  setTimeout(async () => {
+    timeoutId.value = setTimeout(async () => {
+      isDrawing.value = false;
+      audio.pause();
+      audio.currentTime = 0
+      await scrollToBottom();
+    }, 15000);
+  } else {
     isDrawing.value = false;
+    clearTimeout(timeoutId.value!);
     audio.pause();
+    audio.currentTime = 0
     await scrollToBottom();
-  }, 5000);
+  }
 };
+
 
 watch(thirdWinners, scrollToBottom);
 
@@ -55,7 +66,7 @@ watch(thirdWinners, scrollToBottom);
   <div class="min-h-screen flex flex-col items-center justify-between px-4 pt-14 pb-4">
     <div class="flex flex-col items-center space-y-6">
       <LoadingSpinner v-if="pendingPrize" />
-      <div v-else class="flex flex-col items-center">
+      <div v-else class="flex flex-col items-center align-middle">
         <div class="p-4 rounded-lg w-fit" style="background-color: rgba(255, 255, 255, 0.7);">
           <p class="font-mono font-semibold uppercase text-4xl text-center text-red-800">Giải Ba</p>
         </div>
@@ -67,11 +78,8 @@ watch(thirdWinners, scrollToBottom);
               <p class="font-mono font-semibold text-2xl text-center">Người Thắng Giải</p>
               <div class="flex flex-col items-center space-y-2">
                 <div v-for="winner in currentWinners" :key="winner.id"
-                  class="flex justify-center items-center space-x-4 text-xl font-semibold"
-                  :class="winner.type === 'factory' ? 'text-blue-400' : 'text-slate-800'">
-                  <p class="font-sans">{{ winner.code }}</p>
-                  <span>-</span>
-                  <p class="font-sans">{{ winner.name }}</p>
+                  class="flex justify-center items-center space-x-4 text-xl">
+                  <p class="font-sans font-semibold">{{ winner.code }} - {{ winner.name }} - {{ winner.dept }}</p>
                 </div>
               </div>
             </OpaqueBox>
@@ -80,11 +88,8 @@ watch(thirdWinners, scrollToBottom);
               <div class="flex flex-col items-center space-y-4 2xl:h-[52vh] md:h-[36vh] overflow-auto"
                 ref="winner-list">
                 <div v-for="winner in thirdWinners" :key="winner.id"
-                  class="flex justify-center items-center space-x-2 text-xl"
-                  :class="winner.type === 'factory' ? 'text-blue-400' : 'text-slate-800'">
-                  <p class="font-sans font-semibold">{{ winner.code }}</p>
-                  <span>-</span>
-                  <p class="font-sans font-semibold">{{ winner.name }}</p>
+                  class="flex justify-center items-center space-x-2 text-xl">
+                  <p class="font-sans font-semibold">{{ winner.code }} - {{ winner.name }} - {{ winner.dept }}</p>
                 </div>
               </div>
               <div v-if="thirdWinners" class="font-semibold text-xl text-center">
@@ -95,9 +100,22 @@ watch(thirdWinners, scrollToBottom);
         </transition>
       </div>
     </div>
-    <Button class="w-32 h-32 rounded-full red-spring text-3xl font-semibold" @click="drawing" :disabled="!drawable">
-      Bốc Giải
-    </Button>
+    <div v-if="!isDrawing" class="flex items-center justify-center space-x-4">
+      <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="drawing('start', true)"
+        :disabled="!drawable">
+        Bốc Chung
+      </Button>
+      <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold text-wrap"
+        @click="drawing('start', 'Office')" :disabled="!drawable">
+        Chỉ Nhân viên
+      </Button>
+    </div>
+    <div v-else class="flex items-center justify-center space-x-4">
+      <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="drawing('stop', true)"
+        :disabled="!drawable">
+        Dừng
+      </Button>
+    </div>
   </div>
 </template>
 

@@ -33,19 +33,28 @@ const scrollToBottom = async () => {
 };
 
 const audio = new Audio(music);
-const drawing = async () => {
+const timeoutId = ref<NodeJS.Timeout>();
+const drawing = async (work: string) => {
 
-  isDrawing.value = true;
-  audio.play();
-  firstPrizeDrawing();
-  drawCount.value--;
-  fetchWinners();
+  if (work === 'start') {
+    isDrawing.value = true;
+    audio.play();
+    firstPrizeDrawing();
+    drawCount.value--;
+    fetchWinners();
 
-  setTimeout(async () => {
+    timeoutId.value = setTimeout(async () => {
+      isDrawing.value = false;
+      audio.pause();
+      await scrollToBottom();
+    }, 15000);
+  } else {
     isDrawing.value = false;
+    clearTimeout(timeoutId.value!);
     audio.pause();
+    audio.currentTime = 0
     await scrollToBottom();
-  }, 5000);
+  }
 };
 
 watch(firstWinners, scrollToBottom);
@@ -67,24 +76,18 @@ watch(firstWinners, scrollToBottom);
               <p class="font-mono font-semibold text-2xl text-center">Người Thắng Giải</p>
               <div class="flex flex-col items-center space-y-2">
                 <div v-for="winner in currentWinners" :key="winner.id"
-                  class="flex justify-center items-center space-x-4 text-xl font-bold"
-                  :class="winner.type === 'factory' ? 'text-blue-400' : 'text-slate-800'">
-                  <p class="font-sans">{{ winner.code }}</p>
-                  <span>-</span>
-                  <p class="font-sans">{{ winner.name }}</p>
+                  class="flex justify-center items-center space-x-4 text-xl">
+                  <p class="font-sans font-semibold">{{ winner.code }} - {{ winner.name }} - {{ winner.dept }}</p>
                 </div>
               </div>
             </OpaqueBox>
             <OpaqueBox class="winners-list flex flex-col items-center p-6 rounded-lg space-y-8">
               <p class="font-mono font-semibold text-2xl text-center">Danh Sách Người Thắng Giải</p>
-              <div class="flex flex-col items-center space-y-4 2xl:h-[52vh] md:h-[36vh] overflow-auto"
+              <div class="flex flex-col items-center space-y-4 2xl:h-[50vh] lg:h-[36vh] overflow-auto"
                 ref="winner-list">
                 <div v-for="winner in firstWinners" :key="winner.id"
-                  class="flex justify-center items-center space-x-2 text-xl"
-                  :class="winner.type === 'factory' ? 'text-blue-400' : 'text-slate-800'">
-                  <p class="font-sans font-semibold">{{ winner.code }}</p>
-                  <span>-</span>
-                  <p class="font-sans font-semibold">{{ winner.name }}</p>
+                  class="flex justify-center items-center space-x-2 text-xl">
+                  <p class="font-sans font-semibold text">{{ winner.code }} - {{ winner.name }} - {{ winner.dept }}</p>
                 </div>
               </div>
               <div v-if="firstWinners" class="font-semibold text-xl text-center">
@@ -95,8 +98,9 @@ watch(firstWinners, scrollToBottom);
         </transition>
       </div>
     </div>
-    <Button class="w-32 h-32 rounded-full red-spring text-3xl font-semibold" @click="drawing" :disabled="!drawable">
-      Bốc Giải
+    <Button class="w-32 h-32 rounded-full red-spring text-3xl font-semibold"
+      @click="isDrawing ? drawing('start') : drawing('stop')" :disabled="!drawable">
+      {{ isDrawing ? 'Dừng' : 'Bốc Giải' }}
     </Button>
   </div>
 </template>
