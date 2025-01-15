@@ -1,8 +1,8 @@
 <template>
-  <div class="text-animation flex items-center justify-center 2xl:h-[76vh] md:h-[55vh]">
-    <div class="bg-white p-4 rounded-lg w-[36vw]">
+  <div class="text-animation flex items-center justify-center 2xl:h-[60vh] lg:h-[50vh]">
+    <div class="bg-white p-4 rounded-lg w-fit">
       <span v-for="(char, index) in displayText" :key="index" :style="{
-        animationDelay: `${index * 50}ms`,
+        animationDelay: `${index * 10}ms`,
         opacity: char === ' ' ? 1 : undefined
       }" class="inline-block">
         {{ char }}
@@ -13,30 +13,30 @@
 
 
 <script lang="ts" setup>
-import { useAttendantsStore } from '@/stores/attendants';
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { useAttendantsStore } from '@/stores/attendants'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 const { attendants } = useAttendantsStore()
 
-const displayText = ref('');
-let shuffleInterval: NodeJS.Timeout;
+const displayText = ref('')
+let shuffleInterval: NodeJS.Timeout
 
 const startShuffling = () => {
   let index = 0;
   shuffleInterval = setInterval(() => {
     const attendant = attendants[index];
-    displayText.value = `${attendant.code}`;
-    index = (index + 1) % attendants.length; // Loop through the list
-  }, 1); // Adjust interval for display duration
+    displayText.value = `${attendant.code}-${attendant.name}`
+    index = (index + 1) % attendants.length // Loop through the list
+  }, 10) // Adjust interval for display duration
 };
 
 onMounted(() => {
-  startShuffling();
-});
+  startShuffling()
+})
 
 onBeforeUnmount(() => {
-  clearInterval(shuffleInterval);
-});
+  clearInterval(shuffleInterval)
+})
 </script>
 
 <style scoped>
