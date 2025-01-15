@@ -84,7 +84,7 @@ export const useLotteryDrawing = () => {
   }
 
   const consolationPrizeDrawing = () =>
-    performDrawing(consoleWinners, 30, 10, () => true, 'consolation')
+    performDrawing(consoleWinners, 30, 5, () => true, 'consolation')
   const thirdPrizeDrawing = (type: string | boolean) =>
     performDrawing(
       thirdWinners,
