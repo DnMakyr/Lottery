@@ -85,14 +85,14 @@ export const useLotteryDrawing = () => {
 
   const consolationPrizeDrawing = () =>
     performDrawing(consoleWinners, 30, 10, () => true, 'consolation')
-  const thirdPrizeDrawing = () =>
-    performDrawing(thirdWinners, 15, 1, (attendant) => attendant.type === 'employee', 'third')
+  const thirdPrizeDrawing = (type: string) =>
+    performDrawing(thirdWinners, 15, 1, (attendant) => attendant.type === type, 'third')
   const secondPrizeDrawing = () =>
-    performDrawing(secondWinners, 10, 1, (attendant) => attendant.type === 'employee', 'second')
+    performDrawing(secondWinners, 10, 1, (attendant) => attendant.type === 'office', 'second')
   const firstPrizeDrawing = () =>
-    performDrawing(firstWinners, 2, 1, (attendant) => attendant.type === 'employee', 'first')
+    performDrawing(firstWinners, 2, 1, (attendant) => attendant.type === 'office', 'first')
   const deluxePrizeDrawing = () =>
-    performDrawing(deluxeWinners, 2, 1, (attendant) => attendant.type === 'employee', 'deluxe')
+    performDrawing(deluxeWinners, 2, 1, (attendant) => attendant.type === 'office', 'deluxe')
 
   const randomIntDrawing = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min

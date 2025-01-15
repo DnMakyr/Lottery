@@ -3,5 +3,5 @@ export interface Attendant {
   code: string
   name: string
   type: string
-  tier?: string
+  dept: string
 }
