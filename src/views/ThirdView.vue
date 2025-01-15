@@ -100,17 +100,17 @@ watch(thirdWinners, scrollToBottom);
         </transition>
       </div>
     </div>
-    <div v-if="!isDrawing" class="flex items-center justify-center space-x-4">
-      <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="drawing('start', true)"
+    <div v-show="!isDrawing" class="flex space-x-4 ">
+      <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="() => drawing('start', true)"
         :disabled="!drawable">
         Bốc Chung
       </Button>
       <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold text-wrap"
-        @click="drawing('start', 'Office')" :disabled="!drawable">
+        @click="() => drawing('start', 'Office')" :disabled="!drawable">
         Chỉ Nhân viên
       </Button>
     </div>
-    <div v-else class="flex items-center justify-center space-x-4">
+    <div v-show="isDrawing" class="flex items-center justify-center space-x-4">
       <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="drawing('stop', true)"
         :disabled="!drawable">
         Dừng
