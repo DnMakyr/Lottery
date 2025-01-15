@@ -21,7 +21,7 @@ const drawing = async () => {
     isDrawing.value = false
     audio.pause()
 
-  }, 15000)
+  }, 5000)
 }
 </script>
 

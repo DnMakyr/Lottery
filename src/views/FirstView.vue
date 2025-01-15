@@ -45,7 +45,7 @@ const drawing = async () => {
     isDrawing.value = false;
     audio.pause();
     await scrollToBottom();
-  }, 15000);
+  }, 5000);
 };
 
 watch(firstWinners, scrollToBottom);
