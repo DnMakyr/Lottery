@@ -45,22 +45,22 @@ const router = createRouter({
         title: 'Giải Nhất',
       },
     },
-    {
-      path: '/deluxe',
-      name: 'Deluxe Prize Drawing',
-      component: () => import('../views/DeluxeView.vue'),
-      meta: {
-        title: 'Giải Đặc Biệt',
-      },
-    },
-    {
-      path: '/desk',
-      name: 'Desk Prize Drawing',
-      component: () => import('../views/LuckyDeskView.vue'),
-      meta: {
-        title: 'Bàn Làm Việc May Mắn',
-      },
-    },
+    // {
+    //   path: '/deluxe',
+    //   name: 'Deluxe Prize Drawing',
+    //   component: () => import('../views/DeluxeView.vue'),
+    //   meta: {
+    //     title: 'Giải Đặc Biệt',
+    //   },
+    // },
+    // {
+    //   path: '/desk',
+    //   name: 'Desk Prize Drawing',
+    //   component: () => import('../views/LuckyDeskView.vue'),
+    //   meta: {
+    //     title: 'Bàn Làm Việc May Mắn',
+    //   },
+    // },
   ],
 })
 

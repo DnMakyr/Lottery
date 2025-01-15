@@ -37,8 +37,6 @@ onMounted(async () => {
         <Button @click="router.push('/third')" class="red-spring">Giải Ba</Button>
         <Button @click="router.push('/second')" class="red-spring">Giải Nhì</Button>
         <Button @click="router.push('/first')" class="red-spring">Giải Nhất</Button>
-        <Button @click="router.push('/deluxe')" class="red-spring">Giải Đặc Biệt</Button>
-        <Button @click="router.push('/desk')" class="red-spring">Bàn Làm Việc May Mắn</Button>
       </div>
     </div>
   </div>
