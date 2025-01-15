@@ -47,10 +47,11 @@ const drawing = async (work: string) => {
       isDrawing.value = false;
       audio.pause();
       await scrollToBottom();
-    }, 15000);
-  } else {
-    isDrawing.value = false;
+    }, 10000);
     clearTimeout(timeoutId.value!);
+  } else {
+    clearTimeout(timeoutId.value!);
+    isDrawing.value = false;
     audio.pause();
     audio.currentTime = 0
     await scrollToBottom();
@@ -69,7 +70,7 @@ watch(firstWinners, scrollToBottom);
           <p class="font-mono font-semibold uppercase text-4xl text-center text-red-800">Giải Nhất</p>
         </div>
         <TextAnimation v-show="isDrawing" />
-        <transition>
+        <transition mode="out-in">
           <div v-if="!isDrawing && currentWinners && currentWinners.length > 0"
             class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-screen-lg w-full my-4">
             <OpaqueBox class="drawing-result p-6 rounded-lg space-y-4">
@@ -99,7 +100,7 @@ watch(firstWinners, scrollToBottom);
       </div>
     </div>
     <Button class="w-32 h-32 rounded-full red-spring text-3xl font-semibold"
-      @click="isDrawing ? drawing('start') : drawing('stop')" :disabled="!drawable">
+      @click="!isDrawing ? drawing('start') : drawing('stop')" :disabled="!drawable">
       {{ isDrawing ? 'Dừng' : 'Bốc Giải' }}
     </Button>
   </div>
@@ -107,7 +108,7 @@ watch(firstWinners, scrollToBottom);
 
 <style scoped>
 .v-enter-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.1s ease;
 }
 
 .v-enter-from,

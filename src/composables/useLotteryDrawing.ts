@@ -52,8 +52,8 @@ export const useLotteryDrawing = () => {
       const currentWinnersCount = prizeWinnersRef.value?.length || 0
       const remainingSlots = Math.max(0, maxWinners - currentWinnersCount)
 
-      if (tier === 'consolation' && remainingSlots <= 0)
-        throw new Error('All winners have been drawn.')
+      // if (tier === 'consolation' && remainingSlots <= 0)
+      //   throw new Error('All winners have been drawn.')
 
       const shuffled = shuffleArray(availableAttendants)
 

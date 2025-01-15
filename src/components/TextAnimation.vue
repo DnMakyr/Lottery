@@ -1,10 +1,7 @@
 <template>
   <div class="text-animation flex items-center justify-center 2xl:h-[60vh] lg:h-[50vh]">
     <div class="bg-white p-4 rounded-lg w-fit">
-      <span v-for="(char, index) in displayText" :key="index" :style="{
-        animationDelay: `${index * 10}ms`,
-        opacity: char === ' ' ? 1 : undefined
-      }" class="inline-block">
+      <span v-for="(char, index) in displayText" :key="index" class="inline-block">
         {{ char }}
       </span>
     </div>

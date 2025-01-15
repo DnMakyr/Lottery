@@ -46,7 +46,7 @@ const drawing = async (work: string) => {
       isDrawing.value = false;
       audio.pause();
       await scrollToBottom();
-    }, 15000);
+    }, 10000);
   } else {
     isDrawing.value = false;
     clearTimeout(timeoutId.value!);
@@ -68,7 +68,7 @@ watch(consoleWinners, scrollToBottom)
           <p class="font-mono font-semibold uppercase text-4xl text-center text-red-800">Giải Khuyến Khích</p>
         </div>
         <TextAnimation v-show="isDrawing" />
-        <transition>
+        <transition mode="out-in">
           <div v-if="!isDrawing && currentWinners && currentWinners.length > 0"
             class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-screen-lg w-full my-4">
             <OpaqueBox class="drawing-result p-6 rounded-lg space-y-4">
@@ -106,7 +106,7 @@ watch(consoleWinners, scrollToBottom)
 
 <style scoped>
 .v-enter-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.1s ease;
 }
 
 .v-enter-from,

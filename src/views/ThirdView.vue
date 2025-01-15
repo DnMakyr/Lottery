@@ -32,7 +32,7 @@ const scrollToBottom = async () => {
 };
 
 const audio = new Audio(music);
-const timeoutId = ref<NodeJS.Timeout>();
+let timeoutId: NodeJS.Timeout | undefined;
 const drawing = async (work: string, type: string | boolean) => {
 
   if (work === 'start') {
@@ -42,15 +42,15 @@ const drawing = async (work: string, type: string | boolean) => {
     drawCount.value--;
     fetchWinners();
 
-    timeoutId.value = setTimeout(async () => {
+    timeoutId = setTimeout(async () => {
       isDrawing.value = false;
       audio.pause();
       audio.currentTime = 0
       await scrollToBottom();
-    }, 15000);
+    }, 10000);
   } else {
     isDrawing.value = false;
-    clearTimeout(timeoutId.value!);
+    clearTimeout(timeoutId!);
     audio.pause();
     audio.currentTime = 0
     await scrollToBottom();
@@ -71,7 +71,7 @@ watch(thirdWinners, scrollToBottom);
           <p class="font-mono font-semibold uppercase text-4xl text-center text-red-800">Giải Ba</p>
         </div>
         <TextAnimation v-show="isDrawing" />
-        <transition>
+        <transition mode="out-in">
           <div v-if="!isDrawing && currentWinners && currentWinners.length > 0"
             class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-screen-lg w-full my-4">
             <OpaqueBox class="drawing-result p-6 rounded-lg space-y-4">
@@ -100,28 +100,30 @@ watch(thirdWinners, scrollToBottom);
         </transition>
       </div>
     </div>
-    <div v-show="!isDrawing" class="flex space-x-4 ">
-      <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="() => drawing('start', true)"
-        :disabled="!drawable">
-        Bốc Chung
-      </Button>
-      <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold text-wrap"
-        @click="() => drawing('start', 'Office')" :disabled="!drawable">
-        Chỉ Nhân viên
-      </Button>
-    </div>
-    <div v-show="isDrawing" class="flex items-center justify-center space-x-4">
-      <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="drawing('stop', true)"
-        :disabled="!drawable">
-        Dừng
-      </Button>
+    <div class="flex">
+      <div v-show="!isDrawing" class="flex space-x-4 ">
+        <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="() => drawing('start', true)"
+          :disabled="!drawable">
+          Bốc Chung
+        </Button>
+        <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold"
+          @click="() => drawing('start', 'Office')" :disabled="!drawable">
+          Nhân viên
+        </Button>
+      </div>
+      <div v-show="isDrawing" class="flex items-center justify-center space-x-4">
+        <Button class="w-32 h-32 rounded-full red-spring text-2xl font-semibold" @click="drawing('stop', true)"
+          :disabled="!drawable">
+          Dừng
+        </Button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 .v-enter-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 0.1s ease;
 }
 
 .v-enter-from,
