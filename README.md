@@ -1,11 +1,11 @@
 # Lottery
 
-This is a pet project for a YEP's lucky drawing event. Feel free forking and adjusting it to your needs.
-Since this project is kinda small so I didn't enforce DRY or clean coding. Please take note of this!
+This is a pet project for a YEP's lucky drawing event. Feel free to fork and adjust it to your needs.
+Since this project is kinda small, I didn't enforce DRY or clean coding. Please take note of this!
 
 ## Instruction Regarding Database
 
-I'm using Supabase as the database here. Please use your own database for this to work!
+I'm using Supabase as the database here. Please use your database for this to work!
 
 ## Recommended IDE Setup
 
