@@ -1,6 +1,11 @@
 # Lottery
 
-This template should help get you started developing with Vue 3 in Vite.
+This is a pet project for a YEP's lucky drawing event. Feel free forking and adjusting it to your needs.
+Since this project is kinda small so I doesn't enforce DRY or clean coding. Please take note of this!
+
+## Instruction Regarding Database
+
+I'm using Supabase as the database here. Please use your own database for this to work!
 
 ## Recommended IDE Setup
 
