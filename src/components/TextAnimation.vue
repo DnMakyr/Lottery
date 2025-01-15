@@ -11,25 +11,23 @@
   </div>
 </template>
 
+
 <script lang="ts" setup>
+import { useAttendantsStore } from '@/stores/attendants';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-const generateRandomString = (length: number) => {
-  const characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-};
+const { attendants } = useAttendantsStore()
 
 const displayText = ref('');
 let shuffleInterval: NodeJS.Timeout;
 
 const startShuffling = () => {
+  let index = 0;
   shuffleInterval = setInterval(() => {
-    displayText.value = generateRandomString(30); // Adjust length as needed
-  }, 20); // Change interval (in ms) for shuffle frequency
+    const attendant = attendants[index];
+    displayText.value = `${attendant.code}`;
+    index = (index + 1) % attendants.length; // Loop through the list
+  }, 1); // Adjust interval for display duration
 };
 
 onMounted(() => {
