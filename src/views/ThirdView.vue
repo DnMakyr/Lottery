@@ -85,7 +85,7 @@ watch(thirdWinners, scrollToBottom);
             </OpaqueBox>
             <OpaqueBox class="winners-list flex flex-col items-center p-6 rounded-lg space-y-8">
               <p class="font-mono font-semibold text-2xl text-center">Danh Sách Người Thắng Giải</p>
-              <div class="flex flex-col items-center space-y-4 2xl:h-[52vh] md:h-[36vh] overflow-auto"
+              <div class="flex flex-col items-center space-y-4 2xl:h-[50vh] md:h-[30vh] overflow-auto"
                 ref="winner-list">
                 <div v-for="winner in thirdWinners" :key="winner.id"
                   class="flex justify-center items-center space-x-2 text-xl">
